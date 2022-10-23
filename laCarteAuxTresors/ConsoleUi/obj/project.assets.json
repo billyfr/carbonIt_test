@@ -1761,11 +1761,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/bprak/Desktop/test-carbonIt/laCarteAuxTresors/ConsoleUi/laCarteAuxTresors.csproj",
+      "projectUniqueName": "/Users/bprak/Desktop/test-carbonIt/carbonIt_test/laCarteAuxTresors/ConsoleUi/laCarteAuxTresors.csproj",
       "projectName": "laCarteAuxTresors",
-      "projectPath": "/Users/bprak/Desktop/test-carbonIt/laCarteAuxTresors/ConsoleUi/laCarteAuxTresors.csproj",
+      "projectPath": "/Users/bprak/Desktop/test-carbonIt/carbonIt_test/laCarteAuxTresors/ConsoleUi/laCarteAuxTresors.csproj",
       "packagesPath": "/Users/bprak/.nuget/packages/",
-      "outputPath": "/Users/bprak/Desktop/test-carbonIt/laCarteAuxTresors/ConsoleUi/obj/",
+      "outputPath": "/Users/bprak/Desktop/test-carbonIt/carbonIt_test/laCarteAuxTresors/ConsoleUi/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/bprak/.nuget/NuGet/NuGet.Config"

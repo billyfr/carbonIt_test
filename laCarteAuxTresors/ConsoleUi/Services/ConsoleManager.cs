@@ -29,16 +29,16 @@ namespace ConsoleManager
             // string[] lines = System.IO.File.ReadAllLines(arg[0]);
 
             // Display the file contents by using a foreach loop.
-            Console.WriteLine("Contents of WriteLines2.txt = ");
             var lines = File.ReadLines(arg[0])
                         .Select(x => Regex.Replace(x, " -", string.Empty))
                         .ToList();
-            List<List<string>> map = new List<List<string>>();
+            Game map = new Game(){Categories = new List<Categorie>()};
 
 
 
 
             // Use a tab to indent each line of the file.
+            lines.RemoveAt(0);
             foreach (var item in lines)
             {
                 map = GenerateMap(item, map);
@@ -50,108 +50,196 @@ namespace ConsoleManager
             // Keep the console window open in debug mode.
             Console.WriteLine("Press any key to exit.");
 
-            System.Console.ReadKey();
+            // System.Console.ReadKey();
         }
 
-        public List<List<string>> GenerateMap(string data, List<List<string>> map)
+        public Game GenerateMap(string data, Game map)
         {
             List<string> datas = data.Split(" ").ToList();
-            List<List<string>> tempMap = new List<List<string>>();
             Console.WriteLine(JsonConvert.SerializeObject(datas[0]));
             var type = datas[0].ToCharArray()[0];
+            Game games = new Game();
+            Categorie gameCarte = new Categorie();
+            if(type != 'C')
+                gameCarte = map.Categories.Find(x => x.type == 'C');
             switch (type)
             {
                 case 'C':
-                    Carte carte = new Carte();
+                    Categorie carte = new Categorie();
                     carte.type = type;
                     int number;
                     bool isParsableCarte = Int32.TryParse(datas[1], out number);
 
                     if (isParsableCarte)
-                        carte.largeur = number;
+                        carte.positionX = number;
                     else
                         Console.WriteLine("Could not be parsed.");
                     isParsableCarte = Int32.TryParse(datas[2], out number);
                     if (isParsableCarte)
-                        carte.longeur = number;
+                        carte.positionY = number;
                     else
                         Console.WriteLine("Could not be parsed.");
 
-                    for (int i = 0; i < carte.longeur; i++)
-                    {
-                        List<string> largeur = new List<string>();
-                        for (int p = 0; p < carte.largeur; p++)
-                        {
-                            largeur.Add(".");
-                        }
-                        tempMap.Add(largeur);
+                    // for (int i = 0; i < carte.positionX; i++)
+                    // {
+                    //     List<string> largeur = new List<string>();
+                    //     for (int p = 0; p < carte.positionX; p++)
+                    //     {
+                    //         largeur.Add(".");
+                    //     }
+                    //     tempMap.Add(largeur);
 
-                    }
+                    // }
+                    map.Categories.Add(carte);
                     break;
                 case 'M':
-                    Montagne montagne = new Montagne();
+                    Categorie montagne = new Categorie();
                     montagne.type = type;
                     bool isParsableMontagne = Int32.TryParse(datas[1], out number);
-                    
                     if (isParsableMontagne)
-                        montagne.horizontal = number;
+                        montagne.positionX = number;
                     else
                         Console.WriteLine("Could not be parsed.");
                     isParsableMontagne = Int32.TryParse(datas[2], out number);
                     if (isParsableMontagne)
-                        montagne.vertical = number;
+                        montagne.positionY = number;
                     else
                         Console.WriteLine("Could not be parsed.");
-                    tempMap = map;
-                    try
-                    {
-                        tempMap[montagne.vertical][montagne.horizontal] = type.ToString();
-                    }
-                    catch (System.Exception)
-                    {
-
+                    if(montagne.positionX > gameCarte.positionX && montagne.positionY > gameCarte.positionY)
                         throw new Exception("out of range");
-                    }
-
+                    map.Categories.Add(montagne);
                     break;
                 case 'T':
-                    Console.WriteLine(JsonConvert.SerializeObject(datas));
                     Tresor tresor = new Tresor();
                     tresor.type = type;
                     bool isParsableTresor = Int32.TryParse(datas[1], out number);
-                    
+
                     if (isParsableTresor)
-                        tresor.horizontal = number;
+                        tresor.positionX = number;
                     else
                         Console.WriteLine("Could not be parsed.");
                     isParsableTresor = Int32.TryParse(datas[2], out number);
                     if (isParsableTresor)
-                        tresor.vertical = number;
+                        tresor.positionY = number;
                     else
                         Console.WriteLine("Could not be parsed.");
+                    isParsableTresor = Int32.TryParse(datas[3], out number);
                     if (isParsableTresor)
                         tresor.nbTresors = number;
                     else
                         Console.WriteLine("Could not be parsed.");
 
-                    tempMap = map;
-                    try
-                    {
-                        tempMap[tresor.vertical][tresor.horizontal] = $"T({tresor.nbTresors})";
-                    }
-                    catch (System.Exception)
-                    {
-
+                    if(tresor.positionX > gameCarte.positionX && tresor.positionY > gameCarte.positionY)
                         throw new Exception("out of range");
-                    }
-
+                    map.Categories.Add(tresor);
                     break;
+                case 'A':
+                    Aventurier aventurier = new Aventurier();
+                    aventurier.type = type;
+                    aventurier.nbTresors = 0;
+                    bool isParsableAventurier = Int32.TryParse(datas[2], out number);
+
+                    if (isParsableAventurier)
+                        aventurier.positionX = number;
+                    else
+                        Console.WriteLine("Could not be parsed.");
+                    isParsableAventurier = Int32.TryParse(datas[3], out number);
+                    if (isParsableAventurier)
+                        aventurier.positionY = number;
+                    else
+                        Console.WriteLine("Could not be parsed.");
+                    aventurier.nom = datas[1];
+                    aventurier.oriantation = datas[4].ToCharArray()[0];
+                    aventurier.seqMouvement = datas[5];
+                    var seqMouvementSplitToChar = aventurier.seqMouvement.ToCharArray();
+                    foreach (var mouvement in seqMouvementSplitToChar)
+                    {
+                        switch (mouvement)
+                        {
+                            case 'A':
+                                try
+                                {
+                                    switch (aventurier.oriantation)
+                                    {
+                                        case 'S':
+                                            if (!map.Categories.Exists(x => x.positionY == aventurier.positionY + 1 && x.positionX == aventurier.positionX && x.type != 'T')){
+                                                aventurier.positionY += 1;
+                                                if (!map.Categories.Exists(x => x.type == 'T' ))
+                                                    aventurier.nbTresors += 1;
+                                            }
+                                            break;
+                                        case 'N':
+                                            if (!map.Categories.Exists(x => x.positionY == aventurier.positionY -1  && x.positionX == aventurier.positionX))
+                                                aventurier.positionY -= 1;
+                                            break;
+                                        case 'E':
+                                            if (!map.Categories.Exists(x => x.positionY == aventurier.positionY -1  && x.positionX == aventurier.positionX +1 ))
+                                                aventurier.positionX += 1;
+                                            break;
+                                        case 'O':
+                                            if (!map.Categories.Exists(x => x.positionY == aventurier.positionY -1  && x.positionX == aventurier.positionX -1 ))
+                                                aventurier.positionX -= 1;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    
+                                }
+                                catch (System.Exception)
+                                {
+                                    Console.WriteLine("cogner");
+                                };
+                                break;
+                            case 'G':
+                                switch (aventurier.oriantation)
+                                {
+                                    case 'S':
+                                        aventurier.oriantation = 'E';
+                                        break;
+                                    case 'O':
+                                        aventurier.oriantation = 'S';
+                                        break;
+                                    case 'N':
+                                        aventurier.oriantation = 'O';
+                                        break;
+                                    case 'E':
+                                        aventurier.oriantation = 'N';
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            case 'D':
+                                switch (aventurier.oriantation)
+                                {
+                                    case 'S':
+                                        aventurier.oriantation = 'O';
+                                        break;
+                                    case 'O':
+                                        aventurier.oriantation = 'S';
+                                        break;
+                                    case 'N':
+                                        aventurier.oriantation = 'E';
+                                        break;
+                                    case 'E':
+                                        aventurier.oriantation = 'N';
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    Console.WriteLine(JsonConvert.SerializeObject(aventurier));
+                    break;
+
                 default:
                     Console.WriteLine("Sunday");
-                    tempMap = map;
                     break;
             }
-            return tempMap;
+            return map;
             // throw new NotImplementedException();
         }
     }

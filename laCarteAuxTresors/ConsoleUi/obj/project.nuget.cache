@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "svBTiltB362Qv+M4Ruet7pATVq0Pd6C0RWgUipHWqnmCMvUP18fi/FVPN79SCRE1PDR9CASQ0N4/xs28VUa4ww==",
+  "dgSpecHash": "f5QTkaY2ybffqSZbG6Tdbj8/ln1F68XtSC1mG4rEYMN91AO4sr2KFLcs61Yrbaq5zo2sVIoC8Re3FJOeW54Csg==",
   "success": true,
-  "projectFilePath": "/Users/bprak/Desktop/test-carbonIt/laCarteAuxTresors/ConsoleUi/laCarteAuxTresors.csproj",
+  "projectFilePath": "/Users/bprak/Desktop/test-carbonIt/carbonIt_test/laCarteAuxTresors/ConsoleUi/laCarteAuxTresors.csproj",
   "expectedPackageFiles": [
     "/Users/bprak/.nuget/packages/microsoft.extensions.configuration/6.0.0/microsoft.extensions.configuration.6.0.0.nupkg.sha512",
     "/Users/bprak/.nuget/packages/microsoft.extensions.configuration.abstractions/6.0.0/microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
