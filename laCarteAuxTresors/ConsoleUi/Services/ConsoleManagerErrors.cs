@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using ConsoleUi.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -20,29 +22,33 @@ namespace ConsoleUi.Services
 
             public void checkErrorEntry(string[] arg)
             {
-                if(arg.Length == 0){
-                _log.LogError("il manque le fichier dans la commande");
-                throw new Exception("il manque le fichier dans la commande");
-            };
+                if (arg.Length == 0)
+                {
+                    _log.LogError("il manque le fichier dans la commande");
+                    throw new Exception("il manque le fichier dans la commande");
+                };
 
-            if(arg.Length > 1){
-                var err = $"il y'a trop argument {string.Join(",", arg)}";
-                _log.LogError(err);
-                throw new Exception(err);
-            };
+                if (arg.Length > 1)
+                {
+                    var err = $"il y'a trop argument {string.Join(",", arg)}";
+                    _log.LogError(err);
+                    throw new Exception(err);
+                };
 
-            FileInfo fi = new FileInfo(arg[0]);
-            if(fi.Extension != ".txt"){
-                var err = "l'extention du fichier n'est pas au bon format, nous acceptons que les fichiers .txt";
-                _log.LogError(err);
-                throw new Exception(err);
-            };
-            
-            if(fi.Exists == false){
-                var err = $"le fichier {fi.Name} n'existe pas dans le dossier {fi.DirectoryName}";
-                _log.LogError(err);
-                throw new Exception(err);
-            };
+                FileInfo fi = new FileInfo(arg[0]);
+                if (fi.Extension != ".txt")
+                {
+                    var err = "l'extention du fichier n'est pas au bon format, nous acceptons que les fichiers .txt";
+                    _log.LogError(err);
+                    throw new Exception(err);
+                };
+
+                if (fi.Exists == false)
+                {
+                    var err = $"le fichier {fi.Name} n'existe pas dans le dossier {fi.DirectoryName}";
+                    _log.LogError(err);
+                    throw new Exception(err);
+                };
             }
         }
     }

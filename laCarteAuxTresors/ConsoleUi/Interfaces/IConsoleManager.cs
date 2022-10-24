@@ -5,5 +5,7 @@ using ConsoleUi.Models;
 public interface IConsoleManager
 {
     void Run(string[] arg);
-    Game GenerateMap(string data,Game map);
+    Game GenerateGame(string data,Game game);
+    Game PlayGame(Game game);
+    void ActionAdventurer(char action, Adventurer aventurier, Game game);
 }

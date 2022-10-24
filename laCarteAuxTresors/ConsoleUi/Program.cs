@@ -1,4 +1,6 @@
 ﻿using ConsoleManager;
+using ConsoleUi.Interfaces;
+using ConsoleUi.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,6 +34,7 @@ namespace ConsoleUI
                 {
                     services.AddTransient<IConsoleManager, ConsoleManagerService>();
                     services.AddScoped<IConsoleManagerErrors, ConsoleManagerErrorsService>();
+                    services.AddScoped<IFileManager, FileManagerService>();
                 })
                 .UseSerilog()
                 .Build();
