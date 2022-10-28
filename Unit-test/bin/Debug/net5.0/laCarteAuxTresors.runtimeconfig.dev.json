@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/Users/bprak/.dotnet/store/|arch|/|tfm|",
+      "/Users/bprak/.nuget/packages"
+    ]
+  }
+}
